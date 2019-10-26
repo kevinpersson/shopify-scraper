@@ -6,7 +6,16 @@ import urllib.request
 from urllib.error import HTTPError
 from optparse import OptionParser
 
+import ssl
 
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+# Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+# Handle target environment that doesn't support HTTPS verification
+    ssl._create_default_https_context = _create_unverified_https_context
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
 
 
